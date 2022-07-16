@@ -1,0 +1,62 @@
+﻿@page
+@model BoolListRazor.Pages.BookList.UpsertModel
+
+<br />
+@*Verificamos a ver si se esta actualizando un libro o si se quiere crear uno*@
+<h2 class="text-info">@(Model.Book.Id!=0? "Edit":"Create") Book  </h2>
+<br />
+
+<div class="border container shadow" style="padding:30px;">
+    <form method="post">
+        @*Si se esta actualizando un libro, no necesitamos tener la casilla de ID*@
+        @if(Model.Book.Id != 0) {
+        <input type="hidden" asp-for="Book.Id" />
+        }
+        @*asp-validation-summary para obtener todas las validaciones o errores que salgan del modelo*@
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Book.Name"> </label>
+            </div>
+            <div class="col-6">
+                <input asp-for="Book.Name" class="form-control" />
+            </div>
+            @*asp-validation-for coloca el error asociado al nombre del libro(en este caso es required
+                entonces se mostrara un error si no se llena el campo*@
+            <span asp-validation-for="Book.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Book.Autor"> </label>
+            </div>
+            <div class="col-6">
+                <input asp-for="Book.Autor" class="form-control" />
+            </div>
+            <span asp-validation-for="Book.Autor" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Book.ISBN"> </label>
+            </div>
+            <div class="col-6">
+                <input asp-for="Book.ISBN" class="form-control" />
+            </div>
+            <span asp-validation-for="Book.ISBN" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-3 offset-3">
+                <button type="submit" class="btn btn-primary form-control">
+                    @(Model.Book.Id!=0? "Update":"Create")
+                </button>
+            </div>
+            <div class="col-3">
+                <a asp-page="Index" class="btn btn-success form-control">Back to List</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+@*Con esto tenemos que la validacion este en el lado del cliente y no solo del servidor*@
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
